@@ -1,0 +1,2 @@
+# CubeWar-Network
+Multiplayer game.
