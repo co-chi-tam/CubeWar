@@ -1,0 +1,12 @@
+﻿{
+	"id": "EnemyCube-0002",
+	"name": "EnemyCube",
+	"objectType": 1,
+	"fsmPath": "EnemyCubeFSM",
+	"modelPath": "Prefabs/Cube/EnemyCube",
+	"avatarPath": "EnemyCubeIcon",
+	"currentHealth": 100,
+	"maxHealth": 50,
+	"moveSpeed": 5,
+	"seekRadius": 5
+}

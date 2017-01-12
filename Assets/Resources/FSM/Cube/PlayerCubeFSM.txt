@@ -1,0 +1,37 @@
+﻿{
+  "fsm": [
+    {
+      "condition_name": "IsRoot",
+      "state_name": "CubeIdleState",
+      "states": [
+      	{
+	      "condition_name": "!DidMoveToPosition",
+	      "state_name": "CubeMoveState",
+	      "states": [
+	      	{
+		      "condition_name": "DidMoveToPosition",
+		      "state_name": "CubeIdleState",
+		      "states": []
+		    }
+	      ]
+	    }
+      ]
+    },{
+      "condition_name": "IsAnyState",
+      "state_name": "AnyState",
+      "states": [
+        {
+          "condition_name": "IsUnderHealth",
+          "state_name": "CubeInactiveState",
+          "states": [
+            {
+              "condition_name": "!IsUnderHealth||IsActive",
+              "state_name": "CubeIdleState",
+              "states": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
