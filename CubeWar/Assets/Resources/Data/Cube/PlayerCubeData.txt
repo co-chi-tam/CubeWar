@@ -1,0 +1,12 @@
+﻿{
+	"id": "PlayerCube-0002",
+	"name": "PlayerCube",
+	"objectType": 1,
+	"fsmPath": "PlayerCubeFSM",
+	"modelPath": "PlayerCube",
+	"avatarPath": "PlayerCubeIcon",
+	"currentHealth": 100,
+	"maxHealth": 100,
+	"moveSpeed": 5,
+	"seekRadius": 5
+}
