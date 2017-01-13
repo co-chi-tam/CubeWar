@@ -9,8 +9,6 @@ namespace CubeWar {
 	public partial class CCubeController : CObjectController {
 
 		#region Properties
-		[Header("Mesh")]
-		[SerializeField]	protected Renderer m_CubeMesh;
 		[Header("Data text")]
 		[SerializeField]	protected TextAsset m_DataText;
 		[Header("Interactive")]
@@ -32,7 +30,6 @@ namespace CubeWar {
 			base.Start ();
 			this.SetActive (true);
 			this.SetEnable (true);
-			this.SetMovePosition (this.GetPosition());
 			this.SetStartPosition (this.GetPosition ());
 		}
 

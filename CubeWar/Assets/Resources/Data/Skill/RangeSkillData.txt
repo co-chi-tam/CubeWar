@@ -1,0 +1,8 @@
+﻿{
+	"id": "SKILL_0200",
+	"name": "CubeShotSkill",
+	"objectType": 4,
+	"fsmPath": "RangeSkillFSM",
+	"modelPath": "RangeAttackSkill",
+	"moveSpeed": 5
+}

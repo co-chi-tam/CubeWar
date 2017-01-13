@@ -17,6 +17,7 @@ namespace CubeWar {
 
 		// Event
 		public CEventListener OnStartAction;
+		public CEventListener OnAction;
 		public CEventListener OnEndAction;
 		// Manager
 		protected FSMManager m_FSMManager;

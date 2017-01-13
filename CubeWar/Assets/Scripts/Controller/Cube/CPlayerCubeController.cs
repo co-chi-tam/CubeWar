@@ -33,13 +33,13 @@ namespace CubeWar {
 			// Random animation idle
 			this.m_AnimatorController.RandomAnimationFrame();
 
-			if (CGameManager.Instance.GameMode == CEnum.EGameMode.Offline) {
-#if UNITY_EDITOR || UNITY_STANDALONE
-				CUIControlManager.Instance.RegisterControl (false);
-#elif UNITY_ANDROID
-				CUIControlManager.Instance.RegisterControl (true);
-#endif
-			}
+//			if (CGameManager.Instance.GameMode == CEnum.EGameMode.Offline) {
+//#if UNITY_EDITOR || UNITY_STANDALONE
+//				CUIControlManager.Instance.RegisterControl (false);
+//#elif UNITY_ANDROID
+//				CUIControlManager.Instance.RegisterControl (true);
+//#endif
+//			}
 		}
 
 		public override void FixedUpdateBaseTime (float dt)
@@ -58,6 +58,15 @@ namespace CubeWar {
 		public override void OnBecameInvisible ()
 		{
 			
+		}
+
+		protected override void OnDrawGizmos ()
+		{
+			base.OnDrawGizmos ();
+			if (Application.isPlaying == false)
+				return;
+			Gizmos.color = Color.blue;
+			Gizmos.DrawLine (this.GetPosition(), this.GetPosition () + (m_Transform.forward * 3f));
 		}
 
 		#endregion
@@ -153,7 +162,7 @@ namespace CubeWar {
 
 
 			if (Input.GetKey (KeyCode.F)) {
-				this.SetCurrentHealth (this.GetCurrentHealth() + 10);
+				this.SetAnimation (CEnum.EAnimation.Action_1);
 			}
 		}
 
@@ -226,7 +235,7 @@ namespace CubeWar {
 		{
 			base.GetDistanceToTarget ();
 			if (m_TargetInteract == null)
-				return 0.1f;
+				return 0.2f;
 			return this.GetSize () + m_TargetInteract.GetSize();
 		}
 
