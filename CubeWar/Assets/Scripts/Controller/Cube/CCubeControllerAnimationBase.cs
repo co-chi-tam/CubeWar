@@ -17,6 +17,8 @@ namespace CubeWar {
 
 		protected virtual void OnCubeInactive(string animName) {
 			base.DisableObject (animName);
+			this.m_AnimatorController.SetEnable (false);
+			this.m_CapsuleCollider.enabled = false;
 		}
 
 		#endregion

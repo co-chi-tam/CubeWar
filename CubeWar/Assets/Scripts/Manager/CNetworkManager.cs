@@ -119,6 +119,10 @@ namespace CubeWar {
 			});
 		}
 
+		public virtual void OnStopServer() {
+			this.StopServer ();
+		}
+
 		public override void OnStartServer ()
 		{
 			base.OnStartServer ();
@@ -196,6 +200,10 @@ namespace CubeWar {
 			}, (error) => {
 				CLog.Debug ("SERVER INFO ERROR: " + error);				
 			});
+		}
+
+		public virtual void OnStopClient() {
+			this.StopClient ();
 		}
 
 		public override void OnStartClient (NetworkClient client)

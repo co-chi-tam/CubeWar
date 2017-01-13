@@ -12,13 +12,11 @@ namespace CubeWar {
 		[SerializeField]	private float m_MapRadiusBound = 10f;
 
 		public CEnum.EGameMode GameMode = CEnum.EGameMode.Offline;
-		public int randomTimes;
 		public bool init;
-		public float respawnTime = 180f;
+		public bool alreadyPlay;
 
 		private CObjectManager m_ObjectManager;
 		private List<CObjectController> m_ActiveCubes;
-		private CountdownTime m_RespawnCountdownTime;
 
 		protected override void Awake ()
 		{
@@ -27,11 +25,10 @@ namespace CubeWar {
 			Application.targetFrameRate = 30;
 #endif
 			m_ActiveCubes = new List<CObjectController> ();
-			m_RespawnCountdownTime = new CountdownTime (respawnTime, true);
 			m_MapTerrain = GameObject.Find ("WorldMap/Terrain").GetComponent<Terrain>();
 			if (m_MapTerrain != null) {
-				m_MapSize = new Vector2 (m_MapTerrain.terrainData.detailWidth - m_MapRadiusBound
-					, m_MapTerrain.terrainData.detailHeight - m_MapRadiusBound);
+				m_MapSize = new Vector2 (m_MapTerrain.terrainData.size.x - m_MapRadiusBound
+					, m_MapTerrain.terrainData.size.z - m_MapRadiusBound);
 			}
 		}
 
@@ -51,29 +48,29 @@ namespace CubeWar {
 
 			CSceneManager.Instance.OnRegisterTask (this);
 			if (GameMode == CEnum.EGameMode.Offline) {
-				this.OnInitMap ((int)DateTime.Now.Ticks);
+				this.OnInitMap ((int)DateTime.Now.Ticks, () =>  {
+					alreadyPlay = true;
+				});
 			} 
 		}
 
 		public override void UpdateBaseTime (float dt)
 		{
 			base.UpdateBaseTime (dt);
-			if (init && GameMode == CEnum.EGameMode.Offline) {
-				if (m_RespawnCountdownTime.UpdateTime (dt)) {
-					this.RespawnCube ();
-				}
-			}
 		}
 
-		public void OnInitMap(int seed) {
+		public void OnInitMap(int seed, Action complete = null) {
 			UnityEngine.Random.InitState (seed);
-			OnInitMap ();
+			OnInitMap (complete);
 		}
 
-		public void OnInitMap() {
+		public void OnInitMap(Action complete = null) {
 			init = false;
 			CHandleEvent.Instance.AddEvent (this.HandleOnInitMap(() => {
 				init = true;
+				if (complete != null) {
+					complete ();
+				}
 			}), null);
 		}
 
@@ -108,17 +105,6 @@ namespace CubeWar {
 			}
 		}
 
-		public void Rerandom(int times) {
-			if (randomTimes < times) {
-				var reRandom = times - randomTimes;
-				for (int i = 0; i < reRandom; i++) {
-					var random = UnityEngine.Random.insideUnitCircle;
-				}
-			} else if (randomTimes > times) {
-				Debug.Log ("Error");
-			}
-		}
-
 		public void RespawnCube() {
 			for (int i = 0; i < m_ActiveCubes.Count; i++) {
 				var randomPos = this.GetMapRandomPosition();
@@ -136,7 +122,7 @@ namespace CubeWar {
 
 		public override bool OnTask ()
 		{
-			return init;
+			return init && alreadyPlay;
 		}
 
 		public Vector3 GetMapRandomPosition() {
@@ -144,7 +130,6 @@ namespace CubeWar {
 		}
 
 		public Vector3 GetMapRandomPosition(Vector2 size) {
-			randomTimes += 1;
 			var randomCircle = UnityEngine.Random.insideUnitCircle;
 			var x = randomCircle.x * size.x;
 			var y = this.transform.position.y;
@@ -161,6 +146,20 @@ namespace CubeWar {
 				return GetMapRandomPosition(size);
 			}
 			return Vector3.zero;
+		}
+
+		public int GetObjectCount() {
+			return m_ObjectCount;
+		}
+
+		public int GetObjectActiveCount() {
+			return m_ActiveCubes.Count;
+		}
+
+		public CObjectController GetObjectController(int index) {
+			if (index > m_ActiveCubes.Count - 1)
+				return null;
+			return m_ActiveCubes [index];
 		}
 
 	}

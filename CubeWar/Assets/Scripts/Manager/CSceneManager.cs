@@ -94,7 +94,7 @@ namespace CubeWar {
 			SceneManager.LoadSceneAsync (name);
 			this.OnSceneStartLoad.Invoke ();
 		}
-	
+
 		#endregion
 
 		#region Getter && Setter

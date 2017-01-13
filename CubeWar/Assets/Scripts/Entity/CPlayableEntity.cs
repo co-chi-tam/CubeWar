@@ -42,6 +42,7 @@ namespace CubeWar {
 			base.OnLocalPlayerLoadedObject ();
 			m_ObjectSyn.SetUnderControl (true);
 			m_ObjectSyn.AddEventListener ("TouchScreenInput", OnClientTouchScreenInput);
+			m_ObjectSyn.AddEventListener ("MoveDirectionInput", OnClientMoveDirectionInput);
 			m_ObjectSyn.AddEventListener ("ChatInput", OnClientChatInput);
 			m_ObjectSyn.AddEventListener ("EmotionInput", OnClientEmotionInput);
 		}
@@ -86,6 +87,12 @@ namespace CubeWar {
 		}
 
 		[ClientCallback]
+		public virtual void OnClientMoveDirectionInput(object value) {
+			var directionPoint = (Vector3)value;
+			CmdUpdateMoveDirection (directionPoint);
+		}
+
+		[ClientCallback]
 		public virtual void OnClientChatInput(object value) {
 			var chatInput = (string)value;
 			CmdUpdateChat (chatInput);
@@ -116,6 +123,11 @@ namespace CubeWar {
 		[Command]
 		internal virtual void CmdUpdateSelectionObject(Vector3 originPoint, Vector3 directionPoint) {
 			m_ObjectSyn.UpdateSelectionObject (originPoint, directionPoint);
+		}
+
+		[Command]
+		internal virtual void CmdUpdateMoveDirection(Vector3 directionPoint) {
+			m_ObjectSyn.UpdateMoveDirection (directionPoint);
 		}
 
 		#endregion

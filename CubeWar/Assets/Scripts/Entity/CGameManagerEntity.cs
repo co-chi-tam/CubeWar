@@ -14,10 +14,12 @@ namespace CubeWar {
 		protected CGameManager m_GameManager;
 		protected CNetworkManager m_NetworkManager;
 
+		// Sync
 		protected int m_ServerRandomSeed = -1;
-		protected int m_ServerRandomTimes = -1;
-
-		private CountdownTime m_RespawnCountdownTime;
+		[SerializeField]	protected int m_ServerUpdateCubeIndex = -1;
+		// Sync time
+		protected float m_FixedTimeSync = 0.1f;
+		protected CountdownTime m_CountDownFixedTimeSync;
 
 		#endregion
 
@@ -30,7 +32,7 @@ namespace CubeWar {
 		}
 
 		protected virtual void Awake() {
-			
+			m_CountDownFixedTimeSync = new CountdownTime (m_FixedTimeSync, true);
 		}
 
 		public override void OnStartServer ()
@@ -38,12 +40,12 @@ namespace CubeWar {
 			base.OnStartServer ();
 			this.Init ();
 			this.m_ServerRandomSeed = 66778899;
-			this.m_GameManager.OnInitMap (m_ServerRandomSeed);
+			this.m_GameManager.OnInitMap (m_ServerRandomSeed, () => {
+				this.m_GameManager.alreadyPlay = true;
+			});
 
 			CObjectManager.Instance.OnSetObject -= this.OnServerReturnPool;
 			CObjectManager.Instance.OnSetObject += this.OnServerReturnPool;
-
-			m_RespawnCountdownTime = new CountdownTime (this.m_GameManager.respawnTime, true);
 		}
 
 		public override void OnStartLocalPlayer ()
@@ -75,10 +77,6 @@ namespace CubeWar {
 			base.OnNetworkDestroy ();
 		}
 
-		private void OnGUI() {
-			GUI.Label (new Rect (0f, 0f, 150f, 30f), "randomTimes " + this.m_GameManager.randomTimes);
-		}
-
 		#endregion
 
 		#region Server
@@ -88,23 +86,30 @@ namespace CubeWar {
 		public virtual void OnServerUpdateBaseTime(float dt) {
 			if (this.m_GameManager.init == false)
 				return;
-			RpcRequestInit (m_ServerRandomSeed, this.m_GameManager.randomTimes);
-			// Update random times
-			if (m_ServerRandomTimes != this.m_GameManager.randomTimes) {
-				m_ServerRandomTimes = this.m_GameManager.randomTimes;
-				RpcRandomTimes (m_ServerRandomTimes);
-			}
-			// Spawn cube
-			if (m_RespawnCountdownTime.UpdateTime (dt)) {
-				this.m_GameManager.RespawnCube ();
-				RpcRespawnCube ();
-			}
+			RpcRequestInit (m_ServerRandomSeed);
 		}
 
 		// On Server FixedUpdate Base time
 		[ServerCallback]
 		public virtual void OnServerFixedUpdateBaseTime(float dt) {
-			
+			var onTime = 0f;
+			if (m_CountDownFixedTimeSync.UpdateTime (dt, out onTime)) {
+				// Server sync data
+				OnServerFixedUpdateSynData (dt);
+				// Update client
+				RpcFixedUpdateClientSyncTime (onTime);
+			}
+		}
+
+		[ServerCallback]
+		public virtual void OnServerFixedUpdateSynData(float dt) {
+			if (m_GameManager.init == false)
+				return;
+			m_ServerUpdateCubeIndex = (m_ServerUpdateCubeIndex + 1) % m_GameManager.GetObjectCount ();
+			var cubeCtrl = m_GameManager.GetObjectController (m_ServerUpdateCubeIndex);
+			if (cubeCtrl != null) {
+				RpcOnClientUpdateCubeController (m_ServerUpdateCubeIndex, cubeCtrl.GetPosition ());
+			}
 		}
 
 		[ServerCallback]
@@ -129,6 +134,12 @@ namespace CubeWar {
 
 		}
 
+
+		[ClientCallback]
+		public virtual void OnClientFixedUpdateSyncTime(float dt) {
+
+		}
+
 		#endregion
 
 		#region Command
@@ -137,35 +148,40 @@ namespace CubeWar {
 
 		#region Rpc
 
+		[ClientRpc] 
+		internal void RpcOnClientUpdateCubeController(int index, Vector3 position) {
+			if (this.m_GameManager.init == false)
+				return;
+			m_ServerUpdateCubeIndex = index;
+			var cubeCtrl = this.m_GameManager.GetObjectController (index);
+			if (cubeCtrl != null) {
+				cubeCtrl.SetPosition (position);
+				cubeCtrl.SetActive (true);
+			}
+			if (m_ServerUpdateCubeIndex == this.m_GameManager.GetObjectCount () - 1
+				&& this.m_GameManager.GetObjectCount () == this.m_GameManager.GetObjectActiveCount()) {
+				this.m_GameManager.alreadyPlay = true;
+			}
+		}
+
 		[ClientRpc]
 		internal void RpcReturnPool(string name) {
-			this.m_GameManager.OnObjectReturnPool (name, null);
+//			this.m_GameManager.OnObjectReturnPool (name, null);
 		}
 
 		[ClientRpc]
-		internal void RpcRequestInit(int seed, int randomTimes) {
-			if (m_ServerRandomSeed != seed && m_ServerRandomTimes != randomTimes) {
-				this.m_GameManager.Rerandom (randomTimes);
-				this.m_GameManager.OnInitMap (seed);
+		internal void RpcRequestInit(int seed) {
+			if (m_ServerRandomSeed != seed) {
+				this.m_GameManager.OnInitMap (seed);				
 			}
-			this.m_GameManager.randomTimes = randomTimes;
 			m_ServerRandomSeed = seed;
-			m_ServerRandomTimes = randomTimes;
 		}
 
+		// RPC On Client Fixed Update Sync time
 		[ClientRpc]
-		internal void RpcRandomTimes(int random) {
-			m_ServerRandomTimes = random;
-			if (this.m_GameManager.init) {
-				this.m_GameManager.Rerandom (random);
-			}
-		}
-
-		[ClientRpc]
-		internal void RpcRespawnCube() {
-			if (this.m_GameManager.init) {
-				this.m_GameManager.RespawnCube ();
-			}
+		internal virtual void RpcFixedUpdateClientSyncTime(float dt) {
+			// Client Update  
+			OnClientFixedUpdateSyncTime(dt);
 		}
 
 		#endregion

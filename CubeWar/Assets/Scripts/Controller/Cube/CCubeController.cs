@@ -38,8 +38,6 @@ namespace CubeWar {
 
 		public override void OnBecameVisible ()
 		{
-			if (this.GetOtherInteractive () == false)
-				return;
 			base.OnBecameVisible ();
 			this.m_CapsuleCollider.enabled = true;
 			this.m_AnimatorController.SetEnable (true);
@@ -47,8 +45,6 @@ namespace CubeWar {
 
 		public override void OnBecameInvisible ()
 		{
-			if (this.GetOtherInteractive () == false)
-				return;
 			base.OnBecameInvisible ();
 			this.m_CapsuleCollider.enabled = false;
 			this.m_AnimatorController.SetEnable (false);
@@ -255,6 +251,10 @@ namespace CubeWar {
 		{
 //			base.SetActive (value);
 			m_Active = value;
+			if (value == true) {
+				this.m_AnimatorController.SetEnable (value);
+				this.m_CapsuleCollider.enabled = value;
+			}
 		}
 
 		#endregion

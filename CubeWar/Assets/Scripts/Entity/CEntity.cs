@@ -15,9 +15,9 @@ namespace CubeWar {
 		protected IStatus m_ObjectSyn;
 
 		// Network
-		protected float m_FixedTimeSync = 0.1f;
 		protected CNetworkManager m_NetworkManager;
 		// Sync time
+		protected float m_FixedTimeSync = 0.1f;
 		protected CountdownTime m_CountDownFixedTimeSync;
 		// Transform
 		protected Vector3 m_MovePosition;
@@ -68,13 +68,14 @@ namespace CubeWar {
 		// Awake GameObject
 		protected virtual void Awake() {
 			this.controlData = new CObjectData ();
+			this.m_CountDownFixedTimeSync = new CountdownTime (m_FixedTimeSync, true);
 			this.uID = string.Empty;
 		}
 
 		// Start GameObject
 		protected virtual void Start () {
 			m_NetworkManager = CNetworkManager.GetInstance ();
-			m_CountDownFixedTimeSync = new CountdownTime (m_FixedTimeSync, true);
+
 			this.OnCreateControlObject ();
 		}
 
@@ -122,7 +123,7 @@ namespace CubeWar {
 		// Mono Destroy
 		[ClientCallback]
 		protected virtual void OnDestroy() {
-
+			
 		}
 
 		// Mono Application Quit
@@ -134,7 +135,21 @@ namespace CubeWar {
 		// Mono Application Focus
 		[ClientCallback]
 		public virtual void OnApplicationFocus(bool value) {
-		
+#if UNITY_ANDROID
+			if (value == false) {
+				m_NetworkManager.StopClient ();
+			}
+#endif
+		}
+
+		// Mono Application Pause
+		[ClientCallback]
+		public virtual void OnApplicationPause(bool value) {
+#if UNITY_ANDROID
+			if (value == true) {
+				m_NetworkManager.StopClient ();
+			}
+#endif
 		}
 
 		#endregion
@@ -194,8 +209,6 @@ namespace CubeWar {
 		// On Server Destroy Object 
 		[ServerCallback]
 		public virtual void OnServerDestroyObject() {
-			if (m_ObjectSyn == null)
-				return;
 			m_ObjectSyn.SetActive (false);
 			m_ObjectSyn.OnDestroyObject ();
 		}

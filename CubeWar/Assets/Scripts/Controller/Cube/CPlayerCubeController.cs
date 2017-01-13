@@ -21,6 +21,8 @@ namespace CubeWar {
 
 		#endregion
 
+		#region Monobehaviour
+
 		protected override void Start ()
 		{
 			base.Start ();
@@ -48,6 +50,20 @@ namespace CubeWar {
 			}
 		}
 
+		public override void OnBecameVisible ()
+		{
+			
+		}
+
+		public override void OnBecameInvisible ()
+		{
+			
+		}
+
+		#endregion
+
+		#region Main methods
+
 		protected override void OnRegisterComponent() {
 			base.OnRegisterComponent ();
 			// Movable
@@ -55,8 +71,6 @@ namespace CubeWar {
 			this.m_MovableComponent.currentTransform = m_Transform;
 			this.m_MovableComponent.targetPosition = m_MovePosition;
 		}
-
-		#region Main methods
 
 		public override void MoveToTarget(Vector3 target, float dt) {
 			base.MoveToTarget (target, dt);
@@ -100,7 +114,7 @@ namespace CubeWar {
 			if (this.GetOtherInteractive() == false)
 				return;
 			RaycastHit hitInfo;
-			if (Physics.Raycast (originPoint, directionPoint, out hitInfo, 100f, m_TerrainLayerMask)) { // Object layermask
+			if (Physics.Raycast (originPoint, directionPoint, out hitInfo, this.GetCurrentHealth(), m_TerrainLayerMask)) { // Object layermask
 				this.SetMovePosition (hitInfo.point);
 			}
 		}
@@ -136,6 +150,11 @@ namespace CubeWar {
 			var offsetSize = 1f / this.GetMaxHealth ();
 			var currentSize = offsetSize * this.GetCurrentHealth ();
 			this.SetSize (currentSize);
+
+
+			if (Input.GetKey (KeyCode.F)) {
+				this.SetCurrentHealth (this.GetCurrentHealth() + 10);
+			}
 		}
 
 		public override void ShowChat (string value)
@@ -194,7 +213,7 @@ namespace CubeWar {
 		{
 			base.SetUnderControl (value);
 			if (value && this.GetLocalUpdate()) {
-				CameraController.Instance.target = this.transform;
+				CameraController.Instance.SetTarget (this.transform);
 #if UNITY_EDITOR || UNITY_STANDALONE
 				CUIControlManager.Instance.RegisterControl (false);
 #elif UNITY_ANDROID
