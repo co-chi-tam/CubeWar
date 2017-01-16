@@ -16,26 +16,14 @@ Platform assembly: E:\Test\Gihub\CubeWar\trunk\Standalone\Cubewar_Data\Managed\U
 Loading E:\Test\Gihub\CubeWar\trunk\Standalone\Cubewar_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: E:\Test\Gihub\CubeWar\trunk\Standalone\Cubewar_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading E:\Test\Gihub\CubeWar\trunk\Standalone\Cubewar_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.305 seconds
+- Completed reload, in  0.351 seconds
 Platform assembly: E:\Test\Gihub\CubeWar\trunk\Standalone\Cubewar_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: E:\Test\Gihub\CubeWar\trunk\Standalone\Cubewar_Data\Managed\System.dll (this message is harmless)
 desktop: 1366x768 60Hz; virtual: 3286x1080 at -1920,-182
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 1.190160 ms
-Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 7.835900 ms
-
-Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 338.
-Total: 0.603847 ms (FindLiveObjects: 0.045758 ms CreateObjectMapping: 0.040627 ms MarkObjects: 0.493940 ms  DeleteObjects: 0.013257 ms)
-
-Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.703490 ms
-
-Unloading 15 unused Assets to reduce memory usage. Loaded Objects now: 386.
-Total: 0.926725 ms (FindLiveObjects: 0.031218 ms CreateObjectMapping: 0.024803 ms MarkObjects: 0.475123 ms  DeleteObjects: 0.395152 ms)
-
+UnloadTime: 3.545250 ms
 Initialize engine version: 5.4.2f2 (b7e030c65c9b)
 GfxDevice: creating device client; threaded=1
 Direct3D:
@@ -54,43 +42,50 @@ Platform assembly: E:\Test\Gihub\CubeWar\trunk\Standalone\Cubewar_Data\Managed\U
 Loading E:\Test\Gihub\CubeWar\trunk\Standalone\Cubewar_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: E:\Test\Gihub\CubeWar\trunk\Standalone\Cubewar_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading E:\Test\Gihub\CubeWar\trunk\Standalone\Cubewar_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.126 seconds
+- Completed reload, in  0.130 seconds
 Platform assembly: E:\Test\Gihub\CubeWar\trunk\Standalone\Cubewar_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: E:\Test\Gihub\CubeWar\trunk\Standalone\Cubewar_Data\Managed\System.dll (this message is harmless)
 desktop: 1366x768 60Hz; virtual: 3286x1080 at -1920,-182
 <RI> Initializing input.
 <RI> Input initialized.
-<RI> Initialized touch support.
-UnloadTime: 3.964350 ms
 Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 10.944088 ms
+UnloadTime: 13.078937 ms
 
 Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 338.
-Total: 1.305627 ms (FindLiveObjects: 0.230505 ms CreateObjectMapping: 0.141553 ms MarkObjects: 0.899783 ms  DeleteObjects: 0.022665 ms)
+Total: 2.888801 ms (FindLiveObjects: 0.404988 ms CreateObjectMapping: 0.330576 ms MarkObjects: 2.057442 ms  DeleteObjects: 0.026086 ms)
 
 Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.929719 ms
+UnloadTime: 0.881822 ms
 
 Unloading 15 unused Assets to reduce memory usage. Loaded Objects now: 386.
-Total: 1.756801 ms (FindLiveObjects: 0.054739 ms CreateObjectMapping: 0.029935 ms MarkObjects: 0.865571 ms  DeleteObjects: 0.805272 ms)
+Total: 2.897782 ms (FindLiveObjects: 0.289093 ms CreateObjectMapping: 0.114183 ms MarkObjects: 1.663145 ms  DeleteObjects: 0.826654 ms)
 
-Unloading 3 Unused Serialized files (Serialized files now loaded: 1)
-UnloadTime: 28.309826 ms
+<RI> Initialized touch support.
+UnloadTime: 1.145256 ms
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 12.425482 ms
 
-Unloading 577 unused Assets to reduce memory usage. Loaded Objects now: 366.
-Total: 13.771735 ms (FindLiveObjects: 0.258302 ms CreateObjectMapping: 0.100926 ms MarkObjects: 12.230471 ms  DeleteObjects: 1.177330 ms)
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 338.
+Total: 0.675265 ms (FindLiveObjects: 0.034639 ms CreateObjectMapping: 0.036350 ms MarkObjects: 0.447325 ms  DeleteObjects: 0.014112 ms)
 
-Setting up 1 worker threads for Enlighten.
-  Thread -> id: 11bc -> priority: 1 
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.546396 ms
+
+Unloading 15 unused Assets to reduce memory usage. Loaded Objects now: 386.
+Total: 4.098206 ms (FindLiveObjects: 0.033356 ms CreateObjectMapping: 0.027797 ms MarkObjects: 2.709614 ms  DeleteObjects: 1.327437 ms)
+
+UnloadTime: 29.704405 ms
 NullReferenceException
   at (wrapper managed-to-native) UnityEngine.Collider:set_enabled (bool)
   at CubeWar.CObjectController.EnableObject (Boolean value) [0x00000] in <filename unknown>:0 
   at CubeWar.CObjectController.ResetAll () [0x00000] in <filename unknown>:0 
   at CubeWar.CCubeController.ResetAll () [0x00000] in <filename unknown>:0 
   at CubeWar.CObjectController.OnDestroyObject () [0x00000] in <filename unknown>:0 
-  at CubeWar.CEntity.OnNetworkDestroy () [0x00000] in <filename unknown>:0 
-  at UnityEngine.Networking.NetworkIdentity.OnNetworkDestroy () [0x00000] in <filename unknown>:0 
-  at UnityEngine.Networking.ClientScene.OnObjectDestroy (UnityEngine.Networking.NetworkMessage netMsg) [0x00000] in <filename unknown>:0 
+  at CubeWar.CEntity.OnNetworkDestroy () [0x00000] in <fileSame unknown>:0 
+  at UnityEngine.Networking
+.NetworkIdentity.OnNetworkDestroy () [0x00000] in <filename unknown>:0 
+  at UnityEngine.NetworkingoClientScene.OnObjectDestroy (UnityEngine.Networking.Networkrity: 1 n
+etMsg) [0x00000] in <filename unknown>:0 
   at UnityEngine.Networking.NetworkConnection.HandleReader (UnityEngine.Networking.NetworkReader reader, Int32 receivedSize, Int32 channelId) [0x00000] in <filename unknown>:0 
   at UnityEngine.Networking.NetworkConnection.HandleBytes (System.Byte[] buffer, Int32 receivedSize, Int32 channelId) [0x00000] in <filename unknown>:0 
   at UnityEngine.Networking.NetworkConnection.TransportRecieve (System.Byte[] bytes, Int32 numBytes, Int32 channelId) [0x00000] in <filename unknown>:0 
@@ -100,6 +95,11 @@ NullReferenceException
  
 (Filename:  Line: -1)
 
-UnloadTime: 30.566128 ms
+Unloading 3 Unused Serialized files (Serialized files now loaded: 1)
+UnloadTime: 37.039097 ms
+
+Unloading 577 unused Assets to reduce memory usage. Loaded Objects now: 366.
+Total: 22.833292 ms (FindLiveObjects: 0.786455 ms CreateObjectMapping: 0.291659 ms MarkObjects: 16.922262 ms  DeleteObjects: 4.831205 ms)
+
 Setting up 1 worker threads for Enlighten.
-  Thread -> id: 214c -> priority: 1 
+  Thread -> id: 2d48 -> priority: 1 
