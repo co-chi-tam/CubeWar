@@ -43,6 +43,7 @@ namespace CubeWar {
 			m_ObjectSyn.SetUnderControl (true);
 			m_ObjectSyn.AddEventListener ("TouchScreenInput", OnClientTouchScreenInput);
 			m_ObjectSyn.AddEventListener ("MoveDirectionInput", OnClientMoveDirectionInput);
+			m_ObjectSyn.AddEventListener ("ActionInput", OnClientActionInput);
 			m_ObjectSyn.AddEventListener ("ChatInput", OnClientChatInput);
 			m_ObjectSyn.AddEventListener ("EmotionInput", OnClientEmotionInput);
 		}
@@ -93,6 +94,12 @@ namespace CubeWar {
 		}
 
 		[ClientCallback]
+		public virtual void OnClientActionInput(object value) {
+			var action = (int)value;
+			CmdOnClientActionInput (action);
+		}
+
+		[ClientCallback]
 		public virtual void OnClientChatInput(object value) {
 			var chatInput = (string)value;
 			CmdUpdateChat (chatInput);
@@ -130,6 +137,12 @@ namespace CubeWar {
 			m_ObjectSyn.UpdateMoveDirection (directionPoint);
 		}
 
+		[Command]
+		internal virtual void CmdOnClientActionInput(int value) {
+			m_ObjectSyn.UpdateActionInput (value);
+			RpcOnClientActionInput (value);
+		}
+
 		#endregion
 
 		#region RPC
@@ -156,6 +169,11 @@ namespace CubeWar {
 			if (m_ObjectSyn == null)
 				return;
 			m_ObjectSyn.SetEmotion (emotion);
+		}
+
+		[ClientRpc]
+		internal virtual void RpcOnClientActionInput(int value) {
+			m_ObjectSyn.UpdateActionInput (value);
 		}
 
 		#endregion

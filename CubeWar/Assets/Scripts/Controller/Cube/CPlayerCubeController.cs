@@ -33,13 +33,15 @@ namespace CubeWar {
 			// Random animation idle
 			this.m_AnimatorController.RandomAnimationFrame();
 
-//			if (CGameManager.Instance.GameMode == CEnum.EGameMode.Offline) {
-//#if UNITY_EDITOR || UNITY_STANDALONE
-//				CUIControlManager.Instance.RegisterControl (false);
-//#elif UNITY_ANDROID
-//				CUIControlManager.Instance.RegisterControl (true);
-//#endif
-//			}
+			if (CGameManager.Instance.GameMode == CEnum.EGameMode.Offline) {
+#if UNITY_EDITOR || UNITY_STANDALONE
+				CUIControlManager.Instance.RegisterControl (false, this.ShowChat, this.ShowEmotion);	
+#elif UNITY_ANDROID
+				CUIControlManager.Instance.RegisterControl (true, this.ShowChat, this.ShowEmotion);			
+#endif
+			} else {
+				CUIControlManager.Instance.RegisterUIInfo (this, true, true);
+			}
 		}
 
 		public override void FixedUpdateBaseTime (float dt)
@@ -47,6 +49,11 @@ namespace CubeWar {
 			base.FixedUpdateBaseTime (dt);
 			if (this.GetActive()) {
 				UpdateFSM (dt);
+
+				// Input
+				if (Input.GetKeyDown (KeyCode.Q)) {
+					UpdateActionInput ((int)CEnum.EAnimation.Action_1);
+				}
 			}
 		}
 
@@ -137,9 +144,9 @@ namespace CubeWar {
 			this.SetMovePosition (directionPoint + this.GetPosition ());
 		}
 
-		public override void UpdateAction (float dt)
+		public override void UpdateCollider (float dt)
 		{
-			base.UpdateAction (dt);
+			base.UpdateCollider (dt);
 			var colliders = Physics.OverlapSphere (this.GetPosition (), this.GetSize (), m_TargetLayerMask);
 			if (colliders.Length > 0) {
 				for (int i = 0; i < colliders.Length; i++) {
@@ -150,7 +157,9 @@ namespace CubeWar {
 						if (objController.GetCurrentHealth () < this.GetCurrentHealth ()) {
 							objController.ApplyDamage (this, objController.GetCurrentHealth (), CEnum.EElementType.Pure);
 							if (objController.GetTargetInteract() == this) {
-								this.SetCurrentHealth (this.GetCurrentHealth () + objController.GetCurrentHealth ());
+								if (this.GetOtherInteractive ()) {
+									this.SetCurrentHealth (this.GetCurrentHealth () + objController.GetCurrentHealth ());
+								}
 							}
 						}
 					}
@@ -159,10 +168,17 @@ namespace CubeWar {
 			var offsetSize = 1f / this.GetMaxHealth ();
 			var currentSize = offsetSize * this.GetCurrentHealth ();
 			this.SetSize (currentSize);
+		}
 
-
-			if (Input.GetKey (KeyCode.F)) {
-				this.SetAnimation (CEnum.EAnimation.Action_1);
+		public override void UpdateActionInput (int value)
+		{
+			base.UpdateActionInput (value);
+			this.m_EventComponent.InvokeEventListener ("ActionInput", value);
+			if (this.GetOtherInteractive() == false)
+				return;
+			this.SetAction ((CEnum.EAnimation) value);
+			if (this.GetAction () != CEnum.EAnimation.Idle) {
+				this.SetAnimation (this.GetAction ());
 			}
 		}
 
@@ -224,9 +240,9 @@ namespace CubeWar {
 			if (value && this.GetLocalUpdate()) {
 				CameraController.Instance.SetTarget (this.transform);
 #if UNITY_EDITOR || UNITY_STANDALONE
-				CUIControlManager.Instance.RegisterControl (false);
+				CUIControlManager.Instance.RegisterControl (false, this.ShowChat, this.ShowEmotion);
 #elif UNITY_ANDROID
-				CUIControlManager.Instance.RegisterControl (true);
+				CUIControlManager.Instance.RegisterControl (true, this.ShowChat, this.ShowEmotion);	
 #endif
 			}
 		}

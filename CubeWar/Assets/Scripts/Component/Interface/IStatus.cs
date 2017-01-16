@@ -13,6 +13,9 @@ namespace CubeWar {
 		void SetAnimationTime (float value);
 		float GetAnimationTime();
 
+		void SetAction (CEnum.EAnimation value);
+		CEnum.EAnimation GetAction();
+
 		#endregion
 
 		bool GetActive();
@@ -63,6 +66,9 @@ namespace CubeWar {
 		void UpdateTouchInput (float dt);
 		void UpdateSelectionObject (Vector3 originPoint, Vector3 directionPoint);
 		void UpdateMoveDirection (Vector3 directionPoint);
+		void UpdateActionInput (int value);
+		void UpdateCollider (float dt);
+
 		void ExecuteInventoryItem (object value);
 
 		void OnDestroyObject ();

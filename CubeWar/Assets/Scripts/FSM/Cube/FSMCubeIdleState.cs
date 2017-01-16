@@ -21,7 +21,7 @@ namespace CubeWar {
 		{
 			base.UpdateState (dt);
 			m_Controller.UpdateTouchInput (dt);
-			m_Controller.UpdateAction (dt);
+			m_Controller.UpdateCollider (dt);
 		}
 
 		public override void ExitState()

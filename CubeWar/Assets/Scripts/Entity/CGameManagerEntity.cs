@@ -158,21 +158,20 @@ namespace CubeWar {
 				cubeCtrl.SetPosition (position);
 				cubeCtrl.SetActive (true);
 			}
-			if (m_ServerUpdateCubeIndex == this.m_GameManager.GetObjectCount () - 1
-				&& this.m_GameManager.GetObjectCount () == this.m_GameManager.GetObjectActiveCount()) {
-				this.m_GameManager.alreadyPlay = true;
-			}
 		}
 
 		[ClientRpc]
 		internal void RpcReturnPool(string name) {
-//			this.m_GameManager.OnObjectReturnPool (name, null);
+
+
 		}
 
 		[ClientRpc]
 		internal void RpcRequestInit(int seed) {
 			if (m_ServerRandomSeed != seed) {
-				this.m_GameManager.OnInitMap (seed);				
+				this.m_GameManager.OnInitMap (seed, () => {
+					this.m_GameManager.alreadyPlay = true;
+				});				
 			}
 			m_ServerRandomSeed = seed;
 		}

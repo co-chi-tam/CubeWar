@@ -21,7 +21,7 @@ namespace CubeWar {
 		{
 			base.UpdateState (dt);
 			m_Controller.UpdateTouchInput (dt);
-			m_Controller.UpdateAction (dt);
+			m_Controller.UpdateCollider (dt);
 			m_Controller.MoveToTarget (m_Controller.GetMovePosition (), dt);
 		}
 

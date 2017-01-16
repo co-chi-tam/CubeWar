@@ -41,7 +41,7 @@ namespace CubeWar {
 
 		protected NetworkClient m_CurrentClient;
 
-		public static string SERVER_INFO = "https://jsonblob.com/api/cf1eb17e-d8a4-11e6-b16a-431786c4a596";
+		public static string SERVER_INFO = "https://jsonblob.com/api/6bc3f359-dbbb-11e6-90ab-bfd3a72e696a";
 		public static string SERVER_IP = "192.168.0.129";
 		public static int SERVER_PORT = 7766;
 
@@ -108,11 +108,9 @@ namespace CubeWar {
 		public virtual void OnCreateServer() {
 			var www = new CWWW ();
 			www.Get (SERVER_INFO, (result) => {
-				var infos = result.Replace("{","").Replace("}","").Replace("\"","").Split(':');
-				var serverIP = infos[0].ToString();
-				var serverPort = infos[1].ToString();
-				this.networkAddress = serverIP;
-				this.networkPort = int.Parse (serverPort);
+				var info = TinyJSON.JSON.Load (result).Make <CServerInfo>();
+				this.networkAddress = SERVER_IP;
+				this.networkPort = SERVER_PORT;
 				this.StartServer ();
 			}, (error) => {
 				CLog.Debug ("SERVER INFO ERROR: " + error);				
@@ -191,9 +189,7 @@ namespace CubeWar {
 		public virtual void OnCreateClient() {
 			var www = new CWWW ();
 			www.Get (SERVER_INFO, (result) => {
-				var infos = result.Replace("{","").Replace("}","").Replace("\"","").Split(':');
-				var serverIP = infos[0].ToString();
-				var serverPort = infos[1].ToString();
+				var info = TinyJSON.JSON.Load (result).Make <CServerInfo>();
 				this.networkAddress = SERVER_IP;
 				this.networkPort = SERVER_PORT;
 				m_CurrentClient = this.StartClient ();
@@ -216,7 +212,7 @@ namespace CubeWar {
 			base.OnClientSceneChanged (conn);
 			// TEST
 			var user = new CUserData ();
-			user.displayName = "USER-0001";
+			user.displayName = "Player-no." + UnityEngine.Random.Range (1, 9999999);
 			this.OnClientRegisterPlayer (m_CurrentClient, user);
 		}
 

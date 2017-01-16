@@ -23,6 +23,7 @@ namespace CubeWar {
 		protected FSMManager m_FSMManager;
 
 		protected CEnum.EAnimation m_CurrentAnimation = CEnum.EAnimation.Idle;
+		protected CEnum.EAnimation m_CurrentAction = CEnum.EAnimation.Idle;
 		protected Vector3 m_StartPosition;
 		protected Vector3 m_MovePosition;
 		protected Vector2 m_TouchPosition;
@@ -60,6 +61,7 @@ namespace CubeWar {
 			this.m_FSMManager 	= new FSMManager ();
 
 			this.OnStartAction 	= new CEventListener ();
+			this.OnAction 		= new CEventListener ();
 			this.OnEndAction 	= new CEventListener ();
 		}
 
@@ -185,7 +187,11 @@ namespace CubeWar {
 		
 		}
 
-		public virtual void UpdateAction(float dt) {
+		public virtual void UpdateCollider(float dt) {
+
+		}
+
+		public virtual void UpdateActionInput(int value) {
 
 		}
 
@@ -377,6 +383,20 @@ namespace CubeWar {
 			return m_CurrentAnimation;
 		}
 
+		public virtual void SetAction(CEnum.EAnimation value) {
+			m_CurrentAction = value;
+			switch (value) {
+			case CEnum.EAnimation.Death:
+			case CEnum.EAnimation.Move:
+				m_CurrentAction = CEnum.EAnimation.Idle;
+				break;
+			}
+		}
+
+		public virtual CEnum.EAnimation GetAction() {
+			return m_CurrentAction;
+		}
+
 		public virtual void SetAnimationTime(float value) {
 
 		}
@@ -484,6 +504,8 @@ namespace CubeWar {
 		}
 
 		public virtual float GetHeight() {
+			if (m_CapsuleCollider == null)
+				return 0f;
 			return (m_CapsuleCollider.height / 2f) * m_Transform.lossyScale.x;
 		}
 
