@@ -87,8 +87,12 @@ namespace CubeWar {
 			inputTalk.text = string.Empty;
 		}
 
-		public Vector3 GetJoytickPoint() {
-			return m_Joytick.InputDirection;
+		public Vector3 GetJoytickPointXZ() {
+			return m_Joytick.InputDirectionXZ;
+		}
+
+		public Vector3 GetJoytickPointXY() {
+			return m_Joytick.InputDirectionXY;
 		}
 	
 	}

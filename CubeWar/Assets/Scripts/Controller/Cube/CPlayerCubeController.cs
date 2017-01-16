@@ -117,7 +117,7 @@ namespace CubeWar {
 //				var ray = Camera.main.ScreenPointToRay (touchPoint.position);
 //				UpdateSelectionObject(ray.origin, ray.direction);
 //			}
-			var direction = CUIControlManager.Instance.GetJoytickPoint();
+			var direction = CUIControlManager.Instance.GetJoytickPointXZ();
 			if (direction != Vector3.zero) {
 				this.UpdateMoveDirection (direction);
 			}
@@ -141,7 +141,7 @@ namespace CubeWar {
 			this.m_EventComponent.InvokeEventListener ("MoveDirectionInput", directionPoint);
 			if (this.GetOtherInteractive() == false)
 				return;
-			this.SetMovePosition (directionPoint + this.GetPosition ());
+			this.SetMovePosition (m_Transform.forward + directionPoint + this.GetPosition ());
 		}
 
 		public override void UpdateCollider (float dt)

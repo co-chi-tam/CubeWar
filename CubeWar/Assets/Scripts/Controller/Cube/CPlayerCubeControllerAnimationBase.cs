@@ -19,6 +19,7 @@ namespace CubeWar {
 			forwardSeekPosition.y = 0f;
 			this.CreateSkillObject ("CubeShotSkill", this.GetPosition(), forwardSeekPosition, null);
 			this.SetAnimation (CEnum.EAnimation.Idle);
+			this.SetAction (CEnum.EAnimation.Idle);
 			this.SetMovePosition (this.GetPosition ());
 		}
 

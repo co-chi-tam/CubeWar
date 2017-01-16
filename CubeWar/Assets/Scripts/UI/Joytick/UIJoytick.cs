@@ -12,7 +12,8 @@ namespace UICustomize {
 		[SerializeField]	private Image m_BackgroundImage;
 		[SerializeField]	private Image m_KnobImage;
 
-		public Vector3 InputDirection { get; set; }
+		public Vector3 InputDirectionXZ { get; set; }
+		public Vector3 InputDirectionXY { get; set; }
 
 		private RectTransform m_RectTransform;
 
@@ -21,7 +22,8 @@ namespace UICustomize {
 		}
 
 		protected virtual void Start() {
-			this.InputDirection = Vector3.zero;
+			this.InputDirectionXZ = Vector3.zero;
+			this.InputDirectionXY = Vector3.zero;
 			this.SetEnableJoytick (false);
 		}
 
@@ -36,7 +38,7 @@ namespace UICustomize {
 		}
 
 		protected virtual void Reset() {
-			this.InputDirection = Vector3.zero;
+			this.InputDirectionXZ = Vector3.zero;
 			m_BackgroundImage.rectTransform.anchoredPosition = Vector2.zero;
 			m_KnobImage.rectTransform.anchoredPosition = Vector2.zero;
 		}
@@ -59,11 +61,13 @@ namespace UICustomize {
 				pos.x = (pos.x / m_BackgroundImage.rectTransform.sizeDelta.x);	
 				pos.y = (pos.y / m_BackgroundImage.rectTransform.sizeDelta.y);	
 
-				InputDirection = new Vector3 (pos.x * 2f, 0f, pos.y * 2f);
-				InputDirection = InputDirection.magnitude > 1f ? InputDirection.normalized : InputDirection;
+				InputDirectionXZ = new Vector3 (pos.x * 2f, 0f, pos.y * 2f);
+				InputDirectionXY = new Vector3 (pos.x * 2f, pos.y * 2f, 0f);
+				InputDirectionXZ = InputDirectionXZ.magnitude > 1f ? InputDirectionXZ.normalized : InputDirectionXZ;
+				InputDirectionXY = InputDirectionXY.magnitude > 1f ? InputDirectionXY.normalized : InputDirectionXY;
 
-				m_KnobImage.rectTransform.anchoredPosition = new Vector2 (InputDirection.x * (m_BackgroundImage.rectTransform.sizeDelta.x / 3f) , 
-					InputDirection.z * (m_BackgroundImage.rectTransform.sizeDelta.y / 3f));
+				m_KnobImage.rectTransform.anchoredPosition = new Vector2 (InputDirectionXZ.x * (m_BackgroundImage.rectTransform.sizeDelta.x / 3f) , 
+					InputDirectionXZ.z * (m_BackgroundImage.rectTransform.sizeDelta.y / 3f));
 			}
 		}
 

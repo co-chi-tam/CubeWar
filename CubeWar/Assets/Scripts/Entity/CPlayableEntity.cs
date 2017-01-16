@@ -140,7 +140,6 @@ namespace CubeWar {
 		[Command]
 		internal virtual void CmdOnClientActionInput(int value) {
 			m_ObjectSyn.UpdateActionInput (value);
-			RpcOnClientActionInput (value);
 		}
 
 		#endregion
@@ -169,11 +168,6 @@ namespace CubeWar {
 			if (m_ObjectSyn == null)
 				return;
 			m_ObjectSyn.SetEmotion (emotion);
-		}
-
-		[ClientRpc]
-		internal virtual void RpcOnClientActionInput(int value) {
-			m_ObjectSyn.UpdateActionInput (value);
 		}
 
 		#endregion

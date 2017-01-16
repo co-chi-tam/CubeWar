@@ -11,10 +11,10 @@ namespace CubeWar {
 
 		protected override void Start ()
 		{
-			base.Start ();
-			if (this.GetDataUpdate()) {
-				m_Data = TinyJSON.JSON.Load (m_DataText.text).Make<CSkillData> ();
-			}
+			this.OnRegisterAnimation ();
+			this.OnRegisterFSM ();
+			this.OnRegisterComponent ();
+			this.OnRegisterCommand ();
 			var fsmJson = CResourceManager.Instance.LoadResourceOrAsset <TextAsset> (m_Data.fsmPath);
 			m_FSMManager.LoadFSM (fsmJson.text);
 			this.SetActive (true);
@@ -32,6 +32,13 @@ namespace CubeWar {
 		#endregion
 
 		#region Main methods
+
+		protected override void OnLoadData ()
+		{
+			if (this.GetDataUpdate()) {
+				m_Data = TinyJSON.JSON.Load (m_DataText.text).Make<CSkillData> ();
+			}
+		}
 
 		public override void UpdateFSM(float dt) {
 			base.UpdateFSM (dt);
