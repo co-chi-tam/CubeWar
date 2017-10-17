@@ -11,7 +11,7 @@ namespace CubeWar {
 		#region Properties
 
 		[Header("NavMesh")]
-		[SerializeField]	protected NavMeshAgent m_NavMeshAgent;
+		[SerializeField]	protected UnityEngine.AI.NavMeshAgent m_NavMeshAgent;
 		[Header("Layer Mask")]
 		[SerializeField]	protected LayerMask m_TerrainLayerMask;
 		[SerializeField]	protected LayerMask m_TargetLayerMask;

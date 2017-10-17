@@ -15,6 +15,9 @@ namespace CubeWar {
 			if (UnityEngine.Debug.isDebugBuild) {
 				CLogObject.Instance.ShowLog (CLogObject.ELogType.Debug, GetCallerName(), text);
 			}
+#if UNITY_EDITOR
+			UnityEngine.Debug.Log (text);
+#endif
 		}
 
 		// Debug.Log(string , object[])
@@ -22,6 +25,9 @@ namespace CubeWar {
 			if (UnityEngine.Debug.isDebugBuild) {
 				CLogObject.Instance.ShowLogFormat (CLogObject.ELogType.Debug, format, GetCallerName (), args);
 			}
+#if UNITY_EDITOR
+			UnityEngine.Debug.LogFormat (format, args);
+#endif
 		}
 
 		// Debug.LogWarning(string)
@@ -29,6 +35,9 @@ namespace CubeWar {
 			if (UnityEngine.Debug.isDebugBuild) {
 				CLogObject.Instance.ShowLog (CLogObject.ELogType.Warning, GetCallerName (), text);
 			}
+#if UNITY_EDITOR
+			UnityEngine.Debug.LogWarning (text);
+#endif
 		}
 
 		// Debug.LogWarning(string , object[])
@@ -36,6 +45,9 @@ namespace CubeWar {
 			if (UnityEngine.Debug.isDebugBuild) {
 				CLogObject.Instance.ShowLogFormat (CLogObject.ELogType.Warning, format, GetCallerName (), args);
 			}
+#if UNITY_EDITOR
+			UnityEngine.Debug.LogWarningFormat (format, args);
+#endif
 		}
 
 		// Debug.LogError(string)
@@ -43,6 +55,9 @@ namespace CubeWar {
 			if (UnityEngine.Debug.isDebugBuild) {
 				CLogObject.Instance.ShowLog (CLogObject.ELogType.Error, GetCallerName (), text);
 			}
+#if UNITY_EDITOR
+			UnityEngine.Debug.LogError (text);
+#endif
 		}
 
 		// Debug.LogError(string , object[])
@@ -50,6 +65,9 @@ namespace CubeWar {
 			if (UnityEngine.Debug.isDebugBuild) {
 				CLogObject.Instance.ShowLogFormat (CLogObject.ELogType.Error, format, GetCallerName (), args);
 			}
+#if UNITY_EDITOR
+			UnityEngine.Debug.LogErrorFormat (format, args);
+#endif
 		}
 
 		// Get method called

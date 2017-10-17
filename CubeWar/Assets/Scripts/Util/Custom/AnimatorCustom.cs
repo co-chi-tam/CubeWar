@@ -78,16 +78,22 @@ namespace CubeWar {
 		#region Getter && Setter
 
 		public float GetTime() {
+#if !UNITY_5_6_OR_NEWER
 			if (m_Animator == null)
 				return 0f;
 			return (float)m_Animator.GetTime ();
+#else
+			return 0f;
+#endif
 		}
 
 		public void SetTime(float value) {
+#if !UNITY_5_6_OR_NEWER
 			if (m_Animator == null)
 				return;
 			m_Animator.SetTimeUpdateMode (UnityEngine.Experimental.Director.DirectorUpdateMode.Manual);
 			m_Animator.SetTime ((double) value);
+#endif
 		}
 
 		public void SetInteger(string name, int value) {

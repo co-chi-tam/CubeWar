@@ -7,7 +7,7 @@ namespace CubeWar {
 	public class CResourceManager : CMonoSingleton <CResourceManager> {
 
 		private Dictionary<string, AssetBundle> m_AssetResourceLoader = null;
-		private string m_ServerCheckUrl = "https://www.dropbox.com/s/ivrd48us6z2hyts/cactus_leafy_go.go?dl=1";
+		private string m_ServerCheckUrl = "https://www.google.com.vn";
 		private int m_Version = 0;
 		private string m_VersionStr = "v0.0";
 
@@ -27,27 +27,28 @@ namespace CubeWar {
 		protected override void Start ()
 		{
 			base.Start ();
-			// Test: Check server sersion.
+			// Test: Check server version.
 			m_ServerRequest = new CWWW ();
 			m_ServerRequest.Get ("https://www.google.com.vn", (result) => {
-				m_ServerRequest.HandleCoroutine (HandleResourceLoader(m_ServerCheckUrl, m_Version, (x) => {
-					this.OnLoadResourceComplete (m_VersionStr, x); 
-				}, (e) => {
-					this.OnLoadResourceFail(m_VersionStr, e);
-				}));
+//				m_ServerRequest.HandleCoroutine (HandleResourceLoader(m_ServerCheckUrl, m_Version, (x) => {
+//					this.OnLoadResourceComplete (m_VersionStr, x); 
+//				}, (e) => {
+//					this.OnLoadResourceFail(m_VersionStr, e);
+//				}));
+				this.OnLoadResourceComplete (m_VersionStr, null); 
 			}, (error) => {
 				this.OnLoadResourceFail(m_VersionStr, error);
 			});
 		}
 
 		protected virtual void OnLoadResourceComplete(string version, AssetBundle bundle) {
-			if (m_AssetResourceLoader.ContainsKey (version) == false) {
+			if (m_AssetResourceLoader.ContainsKey (version) == false && bundle != null) {
 				m_AssetResourceLoader.Add (version, bundle);
 			}
 		}
 
 		protected virtual void OnLoadResourceFail(string version, string error) {
-			Caching.CleanCache();
+			Caching.ClearCache ();
 			m_AssetResourceLoader.Clear();
 			CLog.Debug ("Fail version: {0} - error {1}", version, error);
 		}

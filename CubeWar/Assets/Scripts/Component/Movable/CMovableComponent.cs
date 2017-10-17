@@ -9,14 +9,14 @@ namespace CubeWar {
 		public Transform currentTransform;
 		public Vector3 targetPosition;
 
-		protected NavMeshAgent m_NavMeshAgent;
+		protected UnityEngine.AI.NavMeshAgent m_NavMeshAgent;
 		protected IMovable m_Target;
 		protected float m_Angle;
 		protected Vector3 m_Direction;
 
 		public static Dictionary<string, IMovable> MovableObjects = new Dictionary<string, IMovable> ();
 
-		public CMovableComponent (IMovable movable, NavMeshAgent navMeshAgent) : base()
+		public CMovableComponent (IMovable movable, UnityEngine.AI.NavMeshAgent navMeshAgent) : base()
 		{
 			m_Angle 			= 0f;
 			m_Target 			= movable;

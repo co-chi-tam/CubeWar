@@ -41,8 +41,8 @@ namespace CubeWar {
 
 		protected NetworkClient m_CurrentClient;
 
-		public static string SERVER_INFO = "https://jsonblob.com/api/6bc3f359-dbbb-11e6-90ab-bfd3a72e696a";
-		public static string SERVER_IP = "192.168.0.129";
+		public static string SERVER_INFO = "https://www.google.com.vn";
+		public static string SERVER_IP = "localhost";
 		public static int SERVER_PORT = 7766;
 
 		public enum EMsgType : short
@@ -108,7 +108,7 @@ namespace CubeWar {
 		public virtual void OnCreateServer() {
 			var www = new CWWW ();
 			www.Get (SERVER_INFO, (result) => {
-				var info = TinyJSON.JSON.Load (result).Make <CServerInfo>();
+//				var info = TinyJSON.JSON.Load (result).Make <CServerInfo>();
 				this.networkAddress = SERVER_IP;
 				this.networkPort = SERVER_PORT;
 				this.StartServer ();
@@ -189,7 +189,7 @@ namespace CubeWar {
 		public virtual void OnCreateClient() {
 			var www = new CWWW ();
 			www.Get (SERVER_INFO, (result) => {
-				var info = TinyJSON.JSON.Load (result).Make <CServerInfo>();
+//				var info = TinyJSON.JSON.Load (result).Make <CServerInfo>();
 				this.networkAddress = SERVER_IP;
 				this.networkPort = SERVER_PORT;
 				m_CurrentClient = this.StartClient ();

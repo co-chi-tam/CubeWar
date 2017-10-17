@@ -135,9 +135,9 @@ namespace CubeWar {
 			var y = this.transform.position.y;
 			var z = randomCircle.y * size.y;
 			var targetPosition = new Vector3 (x, y, z);
-			var path = new NavMeshPath ();
-			if (NavMesh.CalculatePath (transform.position, targetPosition, NavMesh.AllAreas, path)) {
-				if (path.status == NavMeshPathStatus.PathComplete) {
+			var path = new UnityEngine.AI.NavMeshPath ();
+			if (UnityEngine.AI.NavMesh.CalculatePath (transform.position, targetPosition, UnityEngine.AI.NavMesh.AllAreas, path)) {
+				if (path.status == UnityEngine.AI.NavMeshPathStatus.PathComplete) {
 					return targetPosition;
 				} else {
 					return GetMapRandomPosition(size);

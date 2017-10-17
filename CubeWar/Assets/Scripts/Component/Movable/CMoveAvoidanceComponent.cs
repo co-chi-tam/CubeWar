@@ -16,7 +16,7 @@ using System.Collections.Generic;
 		private float[] m_AngleAvoidances = new float[] { 10, 40, -40, 40, -40, 80, -80 }; 
 		private float[] m_lengthAvoidances = new float[] { 3f, 3f, 3f, 3f, 3f, 1.5f, 1.5f }; 
 
-		public CMoveAvoidanceComponent (IMovable movable, NavMeshAgent navMeshAgent) : base(movable, navMeshAgent)
+		public CMoveAvoidanceComponent (IMovable movable, UnityEngine.AI.NavMeshAgent navMeshAgent) : base(movable, navMeshAgent)
 		{
 			m_SpeedThreshold = 1f;
 		}
